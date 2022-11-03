@@ -188,6 +188,10 @@ const high5 = function () {
 // greeterHello('Alazy');
 // greeterHello('Bob');
 
+////////////////////////////////////
+/////The Call and Apply method /////
+////////////////////////////////////
+
 const lufthansa = {
   airline: 'Lufthansa',
   iataCode: 'LH',
@@ -226,3 +230,24 @@ const swiss = {
   iataCode: 'LX',
   bookings: [],
 };
+
+book.call(swiss, 583, 'Mary Cooper');
+console.log(swiss);
+
+// Apply method
+const flightData = [583, 'George Cooper'];
+book.apply(swiss, flightData);
+console.log(swiss);
+
+book.call(swiss, ...flightData);
+
+const wwe = {
+  name: 'World Wrestling Entertainment',
+  code: 'WWE',
+  boss: 'Stephanie McMahon & Nick Khan',
+  postMessage(name) {
+    console.log(`${name} owns ${this.name} short version is ${this.code} `);
+  },
+};
+
+wwe.postMessage('Tony Khan');
