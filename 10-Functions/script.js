@@ -252,13 +252,13 @@ const wwe = {
   superstars: [],
   postMessage(name, age) {
     console.log(
-      `${name} owns ${this.companyName} short version is ${this.code} `
+      `${name} has been hired by ${this.companyName} short version is ${this.code} and ${this.ceo} welcomes them to the team. `
     );
     this.superstars.push({ Superstar: name, age });
   },
 };
 
-wwe.postMessage('Stephanie McMahon & Nick Khan');
+// wwe.postMessage('Stephanie McMahon & Nick Khan');
 
 const aew = {
   companyName: 'All Elite Wrestling',
@@ -267,7 +267,36 @@ const aew = {
   superstars: [],
 };
 
-const superstarTransfer = wwe.postMessage;
+const superstarHire = wwe.postMessage;
 
-superstarTransfer.call(aew, 'Jon Moxley', 35);
+superstarHire.call(aew, 'Jon Moxley', 35);
+superstarHire.call(aew, 'MJF', 26);
+superstarHire.call(wwe, 'Roman Reigns', 39);
+superstarHire.call(wwe, 'Cody Rhodes', 37);
+superstarHire.call(wwe, 'Seth Rollins', 38);
+
+const impact = {
+  companyName: 'Impact Wrestling',
+  code: 'IMPACT',
+  ceo: 'Jason Brown',
+  superstars: [],
+};
+
+const njpw = {
+  companyName: 'New Japan Pro Wrestling',
+  code: 'NJPW',
+  ceo: 'Takami Ohbari',
+  superstars: [],
+};
+
+superstarHire.call(impact, 'Bobby Fish', 50);
+superstarHire.call(njpw, 'Kazuchika Okada', 35);
+superstarHire.call(wwe, 'Bianca Belair', 33);
+console.log(wwe);
 console.log(aew);
+console.log(impact);
+console.log(njpw);
+
+const superstarData = ['Bayley', 30];
+superstarHire.apply(wwe, superstarData);
+console.log(wwe);
