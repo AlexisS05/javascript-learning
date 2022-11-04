@@ -241,13 +241,33 @@ console.log(swiss);
 
 book.call(swiss, ...flightData);
 
+//////////////////////////////////////
+// My Attempt at Understanding Calls//
+//////////////////////////////////////
+
 const wwe = {
-  name: 'World Wrestling Entertainment',
+  companyName: 'World Wrestling Entertainment',
   code: 'WWE',
-  boss: 'Stephanie McMahon & Nick Khan',
-  postMessage(name) {
-    console.log(`${name} owns ${this.name} short version is ${this.code} `);
+  ceo: 'Stephanie McMahon & Nick Khan',
+  superstars: [],
+  postMessage(name, age) {
+    console.log(
+      `${name} owns ${this.companyName} short version is ${this.code} `
+    );
+    this.superstars.push({ Superstar: name, age });
   },
 };
 
-wwe.postMessage('Tony Khan');
+wwe.postMessage('Stephanie McMahon & Nick Khan');
+
+const aew = {
+  companyName: 'All Elite Wrestling',
+  code: 'AEW',
+  ceo: 'Tony Khan',
+  superstars: [],
+};
+
+const superstarTransfer = wwe.postMessage;
+
+superstarTransfer.call(aew, 'Jon Moxley', 35);
+console.log(aew);
