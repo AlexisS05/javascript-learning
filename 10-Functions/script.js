@@ -338,3 +338,38 @@ const addVAT = addTax.bind(null, 0.23);
 
 console.log(addVAT(100));
 console.log(addVAT(23));
+
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+
+const greeterHey = greet('Hey');
+greeterHey('Alazy');
+greeterHey('Steven');
+
+greet('Hello')('Ash');
+
+const greet2 = greet2 => {
+  return name => {
+    console.log(`${greet2} ${name}`);
+  };
+};
+
+const greeterHello = greet2('Hello');
+greeterHello('Alazy');
+greeterHello('Bob');
+
+// Returning a Function
+// Tax Rate
+const addTaxRate = function (rate) {
+  return function (value) {
+    return value + value * rate;
+    // console.log(`${rate} ${value} ${total}`);
+  };
+};
+
+const addVAT2 = addTaxRate(0.23);
+console.log(addVAT2(100));
+console.log(addVAT2(23));
