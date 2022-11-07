@@ -389,23 +389,61 @@ const poll = {
     typeof answer === 'number' &&
       answer < this.answers.length &&
       this.answers[answer]++;
+    this.displayResults();
+    this.displayResults('string');
     if (answer >= this.answers.length) {
       alert('Number invalid');
       this.registerNewAnswer();
     }
-    console.log(answer);
-    console.log(poll.answers);
+    // console.log(answer);
+    // console.log(poll.answers);
   },
-  displayResults(type) {
-    alert(`Poll results are ${this.answers.entries()}`);
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
   },
 };
-poll.registerNewAnswer();
+// poll.registerNewAnswer();
 
 document
   .querySelector('.poll')
-  .addEventListener(
-    'click',
-    poll.registerNewAnswer.bind(poll),
-    poll.displayResults.bind(poll)
-  );
+  .addEventListener('click', poll.registerNewAnswer.bind(poll));
+
+const wwePoll = {
+  question: 'What is your favourite WWE Superstar?',
+  options: [
+    '0: Roman Reigns',
+    '1: Seth Rollins',
+    '2: Brock Lesnar',
+    '3: Cody Rhodes',
+  ],
+  answers: new Array(4).fill(0),
+  registerNewAnswer() {
+    const answer = Number(
+      prompt(`${this.question} \n ${this.options.join('\n')}`)
+    );
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++;
+    this.displayResults();
+    this.displayResults('string');
+    if (answer >= this.answers.length) {
+      alert('Number invalid');
+      this.registerNewAnswer();
+    }
+  },
+  displayResults(type = 'array') {
+    if (type === 'array') {
+      console.log(this.answers);
+    } else if (type === 'string') {
+      console.log(`Poll results are ${this.answers.join(', ')}`);
+    }
+  },
+};
+
+document
+  .querySelector('.wwe-poll')
+  .addEventListener('click', wwePoll.registerNewAnswer.bind(wwePoll));
