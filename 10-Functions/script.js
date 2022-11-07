@@ -385,9 +385,27 @@ const poll = {
     const answer = Number(
       prompt(`${this.question} \n\ ${this.options.join('\n')}`)
     );
+    // Register answer
+    typeof answer === 'number' &&
+      answer < this.answers.length &&
+      this.answers[answer]++;
+    if (answer >= this.answers.length) {
+      alert('Number invalid');
+      this.registerNewAnswer();
+    }
     console.log(answer);
-    this.answers[answer]++;
     console.log(poll.answers);
+  },
+  displayResults(type) {
+    alert(`Poll results are ${this.answers.entries()}`);
   },
 };
 poll.registerNewAnswer();
+
+document
+  .querySelector('.poll')
+  .addEventListener(
+    'click',
+    poll.registerNewAnswer.bind(poll),
+    poll.displayResults.bind(poll)
+  );
