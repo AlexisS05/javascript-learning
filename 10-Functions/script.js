@@ -191,7 +191,7 @@ const high5 = function () {
 ////////////////////////////////////
 /////The Call and Apply method /////
 ////////////////////////////////////
-
+/*
 const lufthansa = {
   airline: 'Lufthansa',
   iataCode: 'LH',
@@ -339,28 +339,6 @@ const addVAT = addTax.bind(null, 0.23);
 console.log(addVAT(100));
 console.log(addVAT(23));
 
-const greet = function (greeting) {
-  return function (name) {
-    console.log(`${greeting} ${name}`);
-  };
-};
-
-const greeterHey = greet('Hey');
-greeterHey('Alazy');
-greeterHey('Steven');
-
-greet('Hello')('Ash');
-
-const greet2 = greet2 => {
-  return name => {
-    console.log(`${greet2} ${name}`);
-  };
-};
-
-const greeterHello = greet2('Hello');
-greeterHello('Alazy');
-greeterHello('Bob');
-
 // Returning a Function
 // Tax Rate
 const addTaxRate = function (rate) {
@@ -373,7 +351,9 @@ const addTaxRate = function (rate) {
 const addVAT2 = addTaxRate(0.23);
 console.log(addVAT2(100));
 console.log(addVAT2(23));
+*/
 
+/*
 // Coding Challenge #1
 
 const poll = {
@@ -447,3 +427,47 @@ const wwePoll = {
 document
   .querySelector('.wwe-poll')
   .addEventListener('click', wwePoll.registerNewAnswer.bind(wwePoll));
+*/
+
+/////////////////////////////
+//
+
+const runOnce = function () {
+  console.log('This will never run again');
+};
+runOnce();
+
+// IIFE
+(function () {
+  console.log('This will never run again');
+})();
+
+(() => console.log('This will ALSO never run again'))();
+
+/////////////////////////////
+
+const secureBooking = function () {
+  let passengerCount = 0;
+
+  return function () {
+    passengerCount++;
+    console.log(`${passengerCount} passengers`);
+  };
+};
+
+const booker = secureBooking();
+
+booker();
+booker();
+booker();
+
+console.dir(booker);
+
+function orderFunction(outerVariable) {
+  return function innerFunction(innerVariable) {
+    console.log('Outer Variable: ' + outerVariable);
+    console.log('Inner Variable: ' + innerVariable);
+  };
+}
+
+const newFunction = orderFunction('outside');
