@@ -429,8 +429,9 @@ document
   .addEventListener('click', wwePoll.registerNewAnswer.bind(wwePoll));
 */
 
+/*
 /////////////////////////////
-//
+// IIFE
 
 const runOnce = function () {
   console.log('This will never run again');
@@ -445,6 +446,7 @@ runOnce();
 (() => console.log('This will ALSO never run again'))();
 
 /////////////////////////////
+///// Closures
 
 const secureBooking = function () {
   let passengerCount = 0;
@@ -464,10 +466,73 @@ booker();
 console.dir(booker);
 
 function orderFunction(outerVariable) {
+  const message = 'Hello';
   return function innerFunction(innerVariable) {
     console.log('Outer Variable: ' + outerVariable);
     console.log('Inner Variable: ' + innerVariable);
+    console.log(message);
   };
 }
 
 const newFunction = orderFunction('outside');
+newFunction('inside');
+
+// Closures are the innerFunctions. Basically it can remember the parameters/data set in the outerfunction. Even when the parent function is done executing. The innerfunction will still remember what was set. Which is the reason why we can still access the parameters and the console.logs.
+
+/////
+// More Closure Examples
+/// Example 1
+let f;
+
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
+  };
+};
+
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g(); // G is already done executing
+f();
+// Closure is A
+console.dir(f);
+
+// Re-assigning f function
+h();
+f(); // f is re-assigned again.
+// Closure is b
+console.dir(f);
+
+// Closure makes sure the function does not lose the connection to the variables already assigned/present at it's birth place. Even when the parent function is done executing. If re-assingned it would be re-born to remember a new closure. Closures also include local arguments. Closure has priority over the scope-chain.
+
+// Example 2
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`There are 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+
+boardPassengers(180, 3);
+*/
+
+(function () {
+  const header = document.querySelector('h1');
+  header.style.color = 'red';
+
+  document.querySelector('body').addEventListener('click', () => {
+    header.style.color = 'blue';
+  });
+})();
+
+// The IIFE gets executed but once its executed its gone. But the function that was inside of it was also executed and remembers was set and made before the IIFE dissappeared. Basically the header variable is in the backpack of the inner function because of closures.
