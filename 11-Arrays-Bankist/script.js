@@ -83,7 +83,7 @@ displayMovements(account1.movements);
 /////////////////////////////////////////////////
 // LECTURES
 
-// const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
 /// Simple Array Methods
@@ -208,6 +208,8 @@ aewSuperstars.forEach(superstar => {
 });
 
 */
+
+/*
 //////////////////////////////////
 /// forEach With Maps and Sets
 
@@ -230,7 +232,9 @@ console.log(currenciesUnique);
 currenciesUnique.forEach(function (value, key, map) {
   console.log(`${key}: ${value}`);
 });
+*/
 
+/*
 /// Coding Challenge #1
 const dogsJulia = [3, 5, 2, 12, 7];
 const dogsKate = [4, 1, 15, 8, 3];
@@ -248,12 +252,45 @@ const checkDogs = function (arr, arr2) {
   const newArr = [...arr3, ...arr2];
   // console.log(newArr);
 
-  for (const dogAge of newArr) {
+  for (const [i, dogAge] of newArr.entries()) {
     const age = dogAge >= 3 ? 'is an adult' : 'is sitll a puppy 🐶';
-    console.log(`Dog number ${dogAge} ${age}`);
+    console.log(`Dog number ${i + 1}  ${age}`);
   }
+
+  // newArr.forEach(dogAge => {
+  //   const age = dogAge >= 3 ? 'is an adult' : 'is sitll a puppy 🐶';
+  //   console.log(`Dog number ${dogAge} ${age}`);
+  // });
 };
 
 checkDogs(dogsJulia, dogsKate);
 console.log('-------------------------------');
 checkDogs(dogsJulia2, dogsKate2);
+*/
+
+const euroToUsd = 1.1;
+
+const movementsUSD = movements.map(function (mov) {
+  return mov * euroToUsd;
+});
+
+const movementsUSDArrow = movements.map(mov => mov * euroToUsd);
+console.log(movementsUSDArrow);
+
+console.log(movements);
+console.log(movementsUSD);
+
+const movementsUSDfor = [];
+for (const mov of movements) {
+  movementsUSDfor.push(mov * euroToUsd);
+}
+console.log(movementsUSDfor);
+
+const movementsDescriptions = movements.map(
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+    )}`
+);
+
+console.log(movementsDescriptions);
