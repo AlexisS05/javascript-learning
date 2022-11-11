@@ -61,15 +61,27 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const displayMovements = function (movements) {
+  containerMovements.innerHTML = '';
+  // .textContent = 0
+
+  movements.forEach(function (mov, i) {
+    const type = mov > 0 ? 'deposit' : 'withdrawal';
+
+    const html = `
+    <div class="movements__row">
+			<div class="movements__type movements__type--${type}">${i + 1} ${type} </div>
+			<div class="movements__value">${mov}</div>
+		</div>
+  `;
+    containerMovements.insertAdjacentHTML('afterbegin', html);
+  });
+};
+displayMovements(account1.movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
-
-const currencies = new Map([
-  ['USD', 'United States dollar'],
-  ['EUR', 'Euro'],
-  ['GBP', 'Pound sterling'],
-]);
 
 // const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
@@ -130,23 +142,32 @@ console.log('Anime'.at(1));
 console.log('I am a gamer'.at(7));
 */
 
+/*
+////////////////////////////////////
+/// Looping Arrays: forEach
+
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
-for (const movement of movements) {
+for (const [i, movement] of movements.entries()) {
   if (movement > 0) {
-    console.log(`You deposited ${movement}`);
+    console.log(`Movement ${i + 1}: You deposited ${movement}`);
   } else {
-    console.log(`You withdrew ${Math.abs(movement)}`);
+    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
   }
 }
 
 console.log('----- FOR EACH -----');
-movements.forEach(function (movement) {
+// The Arguments order matter that are passed in the callback function. forEach(function(element, index, entireArray));
+movements.forEach(function (movement, i, array) {
   if (movement > 0) {
-    console.log(`You deposited ${movement}`);
+    console.log(`Movement ${i + 1}: You deposited ${movement}`);
   } else {
-    console.log(`You withdrew ${Math.abs(movement)}`);
+    console.log(`Movement ${i + 1}: You withdrew ${Math.abs(movement)}`);
   }
 });
+// 0: function(200)
+// 1: function(450)
+// 2: function(-400)
+// ...
 
 const wweSuperstars = [
   'Roman Reigns',
@@ -176,7 +197,7 @@ wweSuperstars.forEach(function (superstar) {
   }
 });
 
-aewSuperstars.forEach(function (superstar) {
+aewSuperstars.forEach(superstar => {
   if (superstar === aewSuperstars.at(0)) {
     console.log(`${superstar} is the current AEW World Champion`);
   } else if (superstar === aewSuperstars.at(1)) {
@@ -185,3 +206,54 @@ aewSuperstars.forEach(function (superstar) {
     console.log(`The rest of the AEW Superstars: ${superstar}`);
   }
 });
+
+*/
+//////////////////////////////////
+/// forEach With Maps and Sets
+
+// Map
+const currencies = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+currencies.forEach(function (value, key, map) {
+  console.log(`${key}: ${value}`);
+});
+
+// Set
+const currenciesUnique = new Set(['USD', 'GBP', 'USD', 'EUR', 'EUR']);
+console.log(currenciesUnique);
+// key is repeated to the value.
+// Basically uneccessary.
+currenciesUnique.forEach(function (value, key, map) {
+  console.log(`${key}: ${value}`);
+});
+
+/// Coding Challenge #1
+const dogsJulia = [3, 5, 2, 12, 7];
+const dogsKate = [4, 1, 15, 8, 3];
+
+const dogsJulia2 = [9, 16, 6, 8, 3];
+const dogsKate2 = [10, 5, 6, 1, 4];
+
+const checkDogs = function (arr, arr2) {
+  const arr3 = arr.concat();
+  arr3.shift();
+  // console.log(arr3);
+  arr3.pop();
+  arr3.pop();
+  // console.log(arr3);
+  const newArr = [...arr3, ...arr2];
+  // console.log(newArr);
+
+  for (const dogAge of newArr) {
+    const age = dogAge >= 3 ? 'is an adult' : 'is sitll a puppy 🐶';
+    console.log(`Dog number ${dogAge} ${age}`);
+  }
+};
+
+checkDogs(dogsJulia, dogsKate);
+console.log('-------------------------------');
+checkDogs(dogsJulia2, dogsKate2);
