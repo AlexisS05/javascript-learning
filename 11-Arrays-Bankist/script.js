@@ -33,7 +33,14 @@ const account4 = {
   pin: 4444,
 };
 
-const accounts = [account1, account2, account3, account4];
+const account5 = {
+  owner: 'World Wrestling Entertainment',
+  movements: [430, 1000, 700, 50, 90],
+  interestRate: 1,
+  pin: 4444,
+};
+
+const accounts = [account1, account2, account3, account4, account5];
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
@@ -78,6 +85,32 @@ const displayMovements = function (movements) {
   });
 };
 displayMovements(account1.movements);
+
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+
+  // My attempt but upperCase
+  accs.forEach(acc => {
+    acc.upperCase = acc.owner
+      .toUpperCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+console.log(accounts);
+
+const createWWESuperstars = accounts1 => {
+  const firstName = '';
+};
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -268,6 +301,10 @@ console.log('-------------------------------');
 checkDogs(dogsJulia2, dogsKate2);
 */
 
+/*
+//////////////////////////////////
+The map method
+
 const euroToUsd = 1.1;
 
 const movementsUSD = movements.map(function (mov) {
@@ -294,3 +331,23 @@ const movementsDescriptions = movements.map(
 );
 
 console.log(movementsDescriptions);
+*/
+
+const deposits = movements.filter(function (mov, i, arr) {
+  return mov > 0;
+});
+console.log(movements);
+console.log(deposits);
+
+const depositsFor = [];
+for (const mov of movements) if (mov > 0) depositsFor.push(mov);
+console.log(depositsFor);
+
+//////////////////
+// My attempt on filter method.
+const withdrawalFor = [];
+for (const mov of movements) if (mov < 0) withdrawalFor.push(mov);
+console.log(withdrawalFor);
+
+const withdrawals = movements.filter(mov => mov < 0);
+console.log(withdrawals);
