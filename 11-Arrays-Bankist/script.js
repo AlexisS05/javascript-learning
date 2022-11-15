@@ -382,3 +382,29 @@ const max = movements.reduce((acc, mov) => {
   else return mov;
 }, movements[0]);
 console.log(max);
+
+// Coding Challenge #2
+const calcAverageHumanAge = function (arr) {
+  let humanAge;
+  const dogAgeToHuman = arr.map(function (val, i) {
+    if (val <= 2) {
+      console.log((humanAge = val * 2));
+      return humanAge;
+    } else if (val > 2) console.log((humanAge = 16 + val * 4));
+    return humanAge;
+  });
+  const FilterAge = dogAgeToHuman.filter((val, i) => {
+    if (val < 18) {
+      console.log(
+        `${i} are the indexes/dogs that are less than 18 in human years`
+      );
+    } else if (val > 18) return val;
+  });
+  const avgAge = FilterAge.reduce((acc, val) => {
+    return acc + val / FilterAge.length;
+  }, 0);
+  console.log(`Average Age: ${avgAge}`);
+};
+
+calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
+calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
