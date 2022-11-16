@@ -459,6 +459,7 @@ console.log(totalDepositsUSD);
 
 /////////////////////////////////
 // Coding Challenge #3
+/*
 const calcAverageHumanAge2 = arr => {
   const dogAgeToHuman = arr
     .map(val => (val <= 2 ? val * 2 : 16 + val * 4))
@@ -469,5 +470,26 @@ const calcAverageHumanAge2 = arr => {
 
 calcAverageHumanAge2([5, 2, 4, 1, 15, 8, 3]);
 calcAverageHumanAge2([16, 6, 10, 5, 6, 1, 4]);
+*/
 // Basically re-do Coding Challenge #2 but with chaining
 // it was pretty easy and straightforward.
+
+/*
+////////////////////////////////////////
+// The find Method
+// Does not return a new array
+// Returns the element of the array you are looping.
+const firstWithdrawal = movements.find(mov => mov < 0);
+console.log(movements);
+console.log(firstWithdrawal);
+
+console.log(accounts);
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+console.log(account);
+
+const accountWWE = accounts.find(
+  acc => acc.owner === 'World Wrestling Entertainment'
+);
+console.log(accountWWE);
+*/
