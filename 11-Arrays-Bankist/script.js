@@ -737,3 +737,136 @@ labelBalance.addEventListener('click', function () {
   console.log(movementsUI2);
 });
 */
+
+/////////////////////////////////////
+// Array Methods Practice
+
+// 1.
+const bankDepositSum = accounts
+  .flatMap(acc => acc.movements)
+  .filter(mov => mov > 0)
+  .reduce((acc, mov) => acc + mov, 0);
+
+console.log(bankDepositSum);
+
+// 2. Easier way to find length of values that are over 1000
+// const numDeposits1000 = accounts
+//   .flatMap(acc => acc.movements)
+//   .filter(mov => mov >= 1000).length;
+
+const numDeposits1000 = accounts
+  .flatMap(acc => acc.movements)
+  // .reduce((acc, mov) => (mov >= 1000 ? acc + 1 : acc), 0);
+  .reduce((acc, mov) => (mov >= 1000 ? ++acc : acc), 0);
+
+console.log(numDeposits1000);
+
+// Prefixed ++ operator
+let a = 10;
+console.log(++a);
+console.log(a);
+
+// 3. Reduce method to a new object
+const { deposit, withdrawals } = accounts
+  .flatMap(acc => acc.movements)
+  .reduce(
+    (sums, cur) => {
+      // cur > 0 ? (sums.deposit += cur) : (sums.withdrawals += cur);
+      sums[cur > 0 ? 'deposit' : 'withdrawals'] += cur;
+      return sums;
+    },
+    { deposit: 0, withdrawals: 0 }
+  );
+console.log(deposit, withdrawals);
+
+// 4. this is a nice title -> This Is a Nice Title
+const convertTitleCase = function (title) {
+  const capitalize = str => str[0].toUpperCase() + str.slice(1);
+
+  const exceptions = ['a', 'an', 'and', 'the', 'but', 'or', 'on', 'in', 'with'];
+
+  const titleCase = title
+    .toLowerCase()
+    .split(' ')
+    .map(word => (exceptions.includes(word) ? word : capitalize(word)))
+    .join(' ');
+  return capitalize(titleCase);
+};
+console.log(convertTitleCase('this is a nice title'));
+console.log(convertTitleCase('this is a LONG title but not too long'));
+console.log(convertTitleCase('and here is another title with an EXAMPLE'));
+
+// More Practice from online
+// Sum
+function total(arr) {
+  const sum = arr.reduce((acc, mov) => acc + mov, 0);
+  return sum;
+}
+
+console.log(total([1, 2, 3])); // 6
+
+function stringConcat(arr) {
+  const sumString = arr.reduce((acc, mov) => acc + mov + '', 0);
+  return sumString;
+}
+
+console.log(stringConcat([1, 2, 3])); // "123"
+console.log(stringConcat([1, 2, 3, 5, 6, 3, 1, 3, 5]));
+
+function totalVotes(arr) {
+  const numVote = arr.map(acc => acc.voted).filter(acc => acc === true).length;
+  return `${numVote} Voters`;
+}
+
+var voters = [
+  { name: 'Bob', age: 30, voted: true },
+  { name: 'Jake', age: 32, voted: true },
+  { name: 'Kate', age: 25, voted: false },
+  { name: 'Sam', age: 20, voted: false },
+  { name: 'Phil', age: 21, voted: true },
+  { name: 'Ed', age: 55, voted: true },
+  { name: 'Tami', age: 54, voted: true },
+  { name: 'Mary', age: 31, voted: false },
+  { name: 'Becky', age: 43, voted: false },
+  { name: 'Joey', age: 41, voted: true },
+  { name: 'Jeff', age: 30, voted: true },
+  { name: 'Zack', age: 19, voted: false },
+];
+console.log(totalVotes(voters)); // 7
+
+function shoppingSpree(arr) {
+  const sumPrice = arr
+    .flatMap(acc => acc.price)
+    .reduce((acc, mov) => acc + mov, 0);
+  return sumPrice;
+}
+
+var wishlist = [
+  { title: 'Tesla Model S', price: 90000 },
+  { title: '4 carat diamond ring', price: 45000 },
+  { title: 'Fancy hacky Sack', price: 5 },
+  { title: 'Gold fidgit spinner', price: 2000 },
+  { title: 'A second Tesla Model S', price: 90000 },
+];
+
+console.log(shoppingSpree(wishlist)); // 227005
+
+//////////////////////////////////////////
+// Coding Challenge #4
+
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+// 1: Task 1
+const addRecommendFood = function (dogs) {
+  dogs.forEach(function (dog) {
+    dog.recommendFood = dog.weight ** 0.75 * 28;
+  });
+};
+
+addRecommendFood(dogs);
+console.log(dogs);
