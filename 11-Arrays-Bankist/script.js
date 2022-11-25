@@ -864,9 +864,71 @@ const dogs = [
 // 1: Task 1
 const addRecommendFood = function (dogs) {
   dogs.forEach(function (dog) {
-    dog.recommendFood = dog.weight ** 0.75 * 28;
+    const recFood = dog.weight ** 0.75 * 28;
+    dog.recommendFood = Math.floor(recFood);
   });
 };
 
 addRecommendFood(dogs);
 console.log(dogs);
+
+// 2: Task 2
+const dogSarah = dogs.find(dog => dog.owners.includes('Sarah'));
+console.log(dogSarah);
+console.log(
+  `Sarah's dog is eating too ${
+    dogSarah.curFood > dogSarah.recommendFood ? 'much' : 'little'
+  } `
+);
+
+// 3: Task 3
+const ownersEatTooMuch = [];
+const ownersEatTooLittle = [];
+
+const filterOwner = dogs.filter(dog =>
+  dog.curFood > dog.recommendFood
+    ? ownersEatTooMuch.push(dog)
+    : ownersEatTooLittle.push(dog)
+);
+console.log(filterOwner);
+console.log(ownersEatTooMuch);
+console.log(ownersEatTooLittle);
+
+// 4: Task 4
+const tooMuchStr = ownersEatTooMuch.flatMap(dog => dog.owners).join(' and ');
+console.log(`${tooMuchStr} dogs eat too much!`);
+
+const tooLittleStr = ownersEatTooLittle
+  .flatMap(dog => dog.owners)
+  .join(' and ');
+console.log(`${tooLittleStr} dogs eat too little!`);
+
+// 5:  Task 5
+console.log(dogs.every(dog => dog.curFood === dog.recommendFood));
+
+// 6: Task 6
+console.log(
+  dogs.some(
+    dog =>
+      dog.curFood > dog.recommendFood * 0.9 &&
+      dog.curFood < dog.recommendFood * 1.1
+  )
+);
+
+// 7: Task 7
+const dogOkayAmount = [];
+
+const pushOkayAmount = dogs.filter(
+  dog =>
+    dog.curFood > dog.recommendFood * 0.9 &&
+    dog.curFood < dog.recommendFood * 1.1
+);
+dogOkayAmount.push(pushOkayAmount);
+console.log(dogOkayAmount);
+
+// 8: Task 8
+const dogArr = dogs.concat();
+const sortArr = dogArr.flatMap(dog => dog.recommendFood).sort((a, b) => a - b);
+console.log(sortArr);
+
+// Completed all the tasks except by myself except Task 2. I was really confused on how the question was phrased.
