@@ -904,7 +904,7 @@ const tooLittleStr = ownersEatTooLittle
 console.log(`${tooLittleStr} dogs eat too little!`);
 
 // 5:  Task 5
-console.log(dogs.every(dog => dog.curFood === dog.recommendFood));
+console.log(dogs.some(dog => dog.curFood === dog.recommendFood));
 
 // 6: Task 6
 console.log(
@@ -930,5 +930,8 @@ console.log(dogOkayAmount);
 const dogArr = dogs.concat();
 const sortArr = dogArr.flatMap(dog => dog.recommendFood).sort((a, b) => a - b);
 console.log(sortArr);
+console.log(dogs);
 
-// Completed all the tasks except by myself except Task 2. I was really confused on how the question was phrased.
+// Completed all the tasks by myself except Task 2. I was really confused on how the question was phrased. It wasn't bad but a good experience for me to do.
+
+// I just watched the solution. I could have made my code cleaner. Didn't fully get Task 8 cause I thought it was only the values and not the full objects. Still I wanted to do it myself.
