@@ -116,3 +116,12 @@ console.log(findAverage([1, 1, 1]));
 console.log(findAverage([1, 2, 3]));
 console.log(findAverage([1, 2, 3, 4]));
 console.log(findAverage([]));
+
+/////////////////////////////////////////
+// String to Array
+function stringToArray(string) {
+	return string.split(' ');
+}
+
+console.log(stringToArray('Robin Singh'));
+console.log(stringToArray('World Wrestling Entertainment'));
