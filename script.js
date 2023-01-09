@@ -125,3 +125,35 @@ function stringToArray(string) {
 
 console.log(stringToArray('Robin Singh'));
 console.log(stringToArray('World Wrestling Entertainment'));
+
+/////////////////////////////////////////
+// Find the third angle
+const otherAngle = (a, b) => {
+	return 180 - (a + b);
+};
+
+console.log(otherAngle(30, 60)); // 90
+console.log(otherAngle(60, 60)); // 60
+console.log(otherAngle(43, 78)); // 59
+console.log(otherAngle(10, 20)); // 150
+
+////////////////////////////////////////////
+// Is this a Triangle?
+function isTriangle(a, b, c) {
+	if (a + b > c && b + c > a && a + c > b) return true;
+	else return false;
+}
+console.log(isTriangle(1, 2, 2));
+console.log(isTriangle(7, 2, 2));
+
+///////////////////////////////////////////
+// Two Sum algorithm
+function algo() {
+	const arr = [10, 20, 30, 50, 60];
+	for (let i = 0; i < arr.length; i++) {
+		for (let j = 0; j < arr.length; j++) {
+			if (arr[i] + arr[j] === 50) console.log(`The index are: ${i}, ${j}`);
+		}
+	}
+}
+algo();
