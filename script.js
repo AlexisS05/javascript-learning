@@ -1,159 +1,99 @@
 'use strict';
 
-// Replace characters in string with complements.
-function DNAStrand(dna) {
-	let sequence = {
-		A: 'T',
-		T: 'A',
-		G: 'C',
-		C: 'G',
-	};
+const Person = function (firstName, birthYear) {
+  // Instance properties
+  this.firstName = firstName;
+  this.birthYear = birthYear;
 
-	return dna.replace(/A|T|G|C/g, function (matched) {
-		return sequence[matched];
-	});
-}
-
-console.log(DNAStrand('AAAA')); /// TTTT
-console.log(DNAStrand('ATTGC')); /// TAACG
-console.log(DNAStrand('GTAT')); /// CATA
-
-////////////////////////////////////////////
-// Find index of array
-
-function findNeedle(haystack) {
-	return `found the needle at position ${haystack.indexOf('needle')}`;
-}
-
-let haystack_1 = [
-	'3',
-	'123124234',
-	undefined,
-	'needle',
-	'world',
-	'hay',
-	2,
-	'3',
-	true,
-	false,
-];
-
-console.log(findNeedle(haystack_1));
-
-//////////////////////////////////////////////////
-// Return string characters to repeat
-//// For-loop
-function doubleChar(str) {
-	let char = '';
-	for (let i = 0; i < str.length; i++) {
-		char += str[i].repeat(2);
-	}
-	return char;
-}
-
-console.log(doubleChar('String'));
-
-// For of Loop
-function doubleChar2(str, n) {
-	let char = '';
-	for (let j of str) {
-		char += j.repeat(n);
-	}
-	return char;
-}
-
-console.log(doubleChar2('String', 2));
-console.log(doubleChar2('WWE', 2));
-
-/////////////////////////////////////////////////
-// Return the century by year
-function century(year) {
-	return Math.ceil(year / 100);
-}
-console.log(century(1705));
-console.log(century(1900));
-console.log(century(1601));
-console.log(century(2000));
-console.log(century(89));
-
-////////////////////////////////////////////////
-// Isogram
-
-function isIsogram(str) {
-	str = str.toLowerCase();
-	for (let i = 0; i < str.length; ++i) {
-		for (let j = i + 1; j < str.length; ++j) {
-			if (str[i] === str[j]) {
-				return false;
-			}
-		}
-	}
-	return true;
-}
-
-console.log(isIsogram('Dermatoglyphics'));
-console.log(isIsogram('isogram'));
-console.log(isIsogram('aba'));
-
-////////////////////////////////////////
-// Greeting. if name equal owner its boss otherwise guest
-function greet(name, owner) {
-	return name === owner ? 'Hello boss' : 'Hello guest';
-}
-
-console.log(greet('Daniel', 'Daniel'));
-console.log(greet('Greg', 'Daniel'));
-
-//////////////////////////////////////////
-// Find the average
-function findAverage(array) {
-	if (array.length === 0) return 0;
-	const sum = array.reduce((arr, cur) => arr + cur, 0);
-	return sum / array.length;
-}
-
-console.log(findAverage([1, 1, 1]));
-console.log(findAverage([1, 2, 3]));
-console.log(findAverage([1, 2, 3, 4]));
-console.log(findAverage([]));
-
-/////////////////////////////////////////
-// String to Array
-function stringToArray(string) {
-	return string.split(' ');
-}
-
-console.log(stringToArray('Robin Singh'));
-console.log(stringToArray('World Wrestling Entertainment'));
-
-/////////////////////////////////////////
-// Find the third angle
-const otherAngle = (a, b) => {
-	return 180 - (a + b);
+  // Never to this
+  // this.calcAge = function () {
+  //   console.log(2023 - this.birthYear);
+  // };
 };
 
-console.log(otherAngle(30, 60)); // 90
-console.log(otherAngle(60, 60)); // 60
-console.log(otherAngle(43, 78)); // 59
-console.log(otherAngle(10, 20)); // 150
+const alazy = new Person('Alazy', 1999);
+console.log(alazy);
 
-////////////////////////////////////////////
-// Is this a Triangle?
-function isTriangle(a, b, c) {
-	if (a + b > c && b + c > a && a + c > b) return true;
-	else return false;
-}
-console.log(isTriangle(1, 2, 2));
-console.log(isTriangle(7, 2, 2));
+// 1. New {} is created
+// 2. function is called, this = {}
+// 3. {} linked to prototype
+// 4. function automatially returns {}
 
-///////////////////////////////////////////
-// Two Sum algorithm
-function algo() {
-	const arr = [10, 20, 30, 50, 60];
-	for (let i = 0; i < arr.length; i++) {
-		for (let j = 0; j < arr.length; j++) {
-			if (arr[i] + arr[j] === 50) console.log(`The index are: ${i}, ${j}`);
-		}
-	}
-}
-algo();
+const matilda = new Person('Matilda', 2017);
+const jack = new Person('Jack', 1975);
+console.log(matilda, jack);
+
+console.log(alazy instanceof Person);
+
+console.log(Person.prototype);
+
+// Prototypes
+Person.prototype.calcAge = function () {
+  console.log(2023 - this.birthYear);
+};
+
+alazy.calcAge();
+matilda.calcAge();
+jack.calcAge();
+
+console.log(alazy.__proto__);
+console.log(alazy.__proto__ === Person.prototype);
+
+const wwe = '';
+
+console.log(Person.prototype.isPrototypeOf(alazy));
+console.log(Person.prototype.isPrototypeOf(matilda));
+console.log(Person.prototype.isPrototypeOf(Person));
+console.log(Person.prototype.isPrototypeOf(wwe));
+// .prototypeOfLinkedObjects
+
+Person.prototype.species = 'Homo Sapiens';
+console.log(alazy.species, matilda.species);
+
+console.log(alazy.hasOwnProperty('firstName'));
+console.log(alazy.hasOwnProperty('species'));
+
+console.log(alazy.__proto__);
+// Object.prototype (top of prototype chain)
+console.log(alazy.__proto__.__proto__);
+console.log(alazy.__proto__.__proto__.__proto__);
+
+console.dir(Person.prototype.constructor);
+
+const arr = [3, 6, 6, 5, 6, 9, 9]; // new Array === []
+console.log(arr.__proto__);
+console.log(arr.__proto__ === Array.prototype);
+console.log(arr.__proto__.__proto__);
+
+Array.prototype.unique = function () {
+  return [...new Set(this)];
+};
+console.log(arr.unique());
+const h1 = document.querySelector('h1');
+console.dir(x => x + 1);
+
+//////////////////////////////////////////////////////////////
+// Coding Challenge #1
+const Car = function (name, speed) {
+  this.make = name;
+  this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+  console.log(`${this.make} is going at ${(this.speed += 10)} km/h`);
+};
+
+Car.prototype.brake = function () {
+  console.log(`${this.make} is going at ${(this.speed -= 5)} km/h`);
+};
+
+const bmw = new Car('BMW', 120);
+const mercedes = new Car('Mercedes', 95);
+bmw.accelerate();
+bmw.accelerate();
+bmw.brake();
+bmw.accelerate();
+bmw.brake();
+mercedes.accelerate();
+mercedes.accelerate();
+mercedes.brake();
