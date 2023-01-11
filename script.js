@@ -1,7 +1,7 @@
 'use strict';
 //////////////////////////////////////////
 // Constructor Function and the new Operator
-
+/*
 const Person = function (firstName, birthYear) {
   // Instance properties
   this.firstName = firstName;
@@ -81,6 +81,7 @@ Array.prototype.unique = function () {
 console.log(arr.unique());
 const h1 = document.querySelector('h1');
 console.dir(x => x + 1);
+*/
 
 //////////////////////////////////////////////////////////////
 // Coding Challenge #1
@@ -220,19 +221,6 @@ const sarah = Object.create(PersonProto);
 sarah.init('Sarah', 1979);
 sarah.calcAge();
 
-// const Car = function (name, speed) {
-//   this.make = name;
-//   this.speed = speed;
-// };
-
-// Car.prototype.accelerate = function () {
-//   console.log(`${this.make} is going at ${(this.speed += 10)} km/h`);
-// };
-
-// Car.prototype.brake = function () {
-//   console.log(`${this.make} is going at ${(this.speed -= 5)} km/h`);
-// };
-
 ////////////////////////////////////////////
 // Coding Challenge #2
 class CarCl {
@@ -266,3 +254,84 @@ ford.accelerate();
 ford.brake();
 ford.speedUS = 50;
 console.log(ford);
+
+/////////////////////////////////////////
+// Inheritance Between "Classes": Constructor Functions
+const Person = function (firstName, birthYear) {
+  this.firstName = firstName;
+  this.birthYear = birthYear;
+};
+
+Person.prototype.calcAge = function () {
+  console.log(2037 - this.birthYear);
+};
+
+const Student = function (firstName, birthYear, course) {
+  Person.call(this, firstName, birthYear);
+  this.course = course;
+};
+
+// Linking prototypes
+Student.prototype = Object.create(Person.prototype);
+
+Student.prototype.introduce = function () {
+  console.log(`My name is ${this.firstName} and I study ${this.course}`);
+};
+
+const mike = new Student('Mike', 2020, 'Computer Science');
+console.log(mike);
+mike.introduce();
+mike.calcAge();
+
+console.log(mike.__proto__);
+console.log(mike.__proto__.__proto__);
+
+console.log(mike instanceof Student);
+console.log(mike instanceof Person);
+console.log(mike instanceof Object);
+
+Student.prototype.constructor = Student;
+console.dir(Student.prototype.constructor);
+
+////////////////////////////////////////////
+// Coding Challenge #3
+/*
+const Car = function (name, speed) {
+  this.make = name;
+  this.speed = speed;
+};
+
+Car.prototype.accelerate = function () {
+  console.log(`${this.make} is going at ${(this.speed += 10)} km/h `);
+};
+
+Car.prototype.brake = function () {
+  console.log(`${this.make} is going at ${(this.speed -= 5)} km/h`);
+};
+
+const EV = function (name, speed, charge) {
+  Car.call(this, name, speed);
+  this.charge = charge;
+};
+
+EV.prototype = Object.create(Car.prototype);
+
+EV.prototype.chargeBattery = function (chargeTo) {
+  this.charge = chargeTo;
+};
+
+EV.prototype.accelerate = function () {
+  this.speed += 20;
+  this.charge--;
+  console.log(
+    `${this.make} is going at ${this.speed} km/h and ${this.charge}%`
+  );
+};
+const tesla = new EV('Tesla', 120, 23);
+tesla.chargeBattery(90);
+console.log(tesla);
+tesla.accelerate();
+tesla.accelerate();
+tesla.brake();
+tesla.brake();
+*/
