@@ -145,3 +145,43 @@ function isTriangle(a, b, c) {
 }
 console.log(isTriangle(1, 2, 2));
 console.log(isTriangle(7, 2, 2));
+
+///////////////////////////////////////////
+// Replace letters in string. Two ways
+function disemvowel(str) {
+  let sequence = {
+    a: '',
+    i: '',
+    e: '',
+    o: '',
+    u: '',
+    A: '',
+    I: '',
+    E: '',
+    O: '',
+    U: '',
+  };
+
+  return str.replace(/a|i|e|o|u|A|I|E|O|U/g, function (matched) {
+    return sequence[matched];
+  });
+}
+
+function disemvowel2(str) {
+  return str.replace(/[aeiou]/gi, '');
+}
+
+console.log(disemvowel('This website is for losers LOL'));
+console.log(disemvowel2('This website is for losers LOL'));
+
+///////////////////////////////////////////
+// Descending the numbers
+function descendingOrder(n) {
+  let numStr = n.toString().split('').sort().reverse().join('');
+
+  return Number(numStr);
+}
+console.log(descendingOrder(0));
+console.log(descendingOrder(1));
+console.log(descendingOrder(15));
+console.log(descendingOrder(123456789));
