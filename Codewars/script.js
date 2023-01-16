@@ -187,4 +187,53 @@ console.log(descendingOrder(15));
 console.log(descendingOrder(123456789));
 
 /////////////////////////////////////////
-function nbYear(p0, percent, aug, p) {}
+// Growth of a population
+function nbYear(p0, percent, aug, p) {
+	let years = 0;
+	let sum = 0;
+	const percentage = percent / 100;
+	while (sum < p) {
+		sum = Math.floor(p0 + p0 * percentage + aug);
+		p0 = sum;
+		years++;
+	}
+	return years;
+}
+console.log(nbYear(1500, 5, 100, 5000));
+
+///////////////////////////////////////////
+// Shortest Word
+function findShort(s) {
+	let numStr = s.split(' ');
+	let shortest = numStr.reduce((acc, cur) => {
+		return cur.length < acc.length ? cur : acc;
+	}, numStr[1]);
+
+	return shortest.length;
+}
+console.log(findShort('bitcoin take over the world maybe who knows perhaps'));
+
+/////////////////////////////////////////
+// Money, Money, Money
+function calculateYears(principal, interest, tax, desired) {
+	let years = 0;
+
+	while (principal < desired) {
+		let gains = principal * interest - principal * interest * tax;
+		principal += gains;
+		years++;
+	}
+	return years;
+}
+
+console.log(calculateYears(1000, 0.5, 0.18, 1100));
+
+/////////////////////////////////////////
+// Opposite Number (returns an opposite number)
+function opposite(number) {
+	return -number;
+}
+
+console.log(opposite(1));
+console.log(opposite(14));
+console.log(opposite(-34));
