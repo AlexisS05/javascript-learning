@@ -76,6 +76,20 @@ a:visited {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 0.75rem 1.5rem;
+  position: relative;
+}
+
+.edit {
+  position: absolute;
+  right: 10%;
+  top: 10%;
+  font-size: 1.4rem;
+  padding: 0.8rem;
+}
+
+.edit:hover {
+  background-color: #6b6b6b;
+  border-radius: 5px;
 }
 .workout--running {
   border-left: 5px solid var(--color-brand--2);
