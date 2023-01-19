@@ -210,7 +210,7 @@ class App {
   }
 
   _editHandle(e) {
-    if (this._editBtn.closest('.edit')) this._showForm();
+    if (this._editBtn.closest('.edit')) console.log('WWE');
   }
 
   _renderWorkoutMarker(workout) {
