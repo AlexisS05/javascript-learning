@@ -78,6 +78,7 @@ class App {
   #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
+  _editBtn = document.querySelector('.workouts');
 
   constructor() {
     // Get user's position
@@ -90,6 +91,7 @@ class App {
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+    this._editBtn.addEventListener('click', this._editHandle.bind(this));
   }
 
   _getPosition() {
@@ -207,6 +209,10 @@ class App {
     this._setLocalStorage();
   }
 
+  _editHandle(e) {
+    if (this._editBtn.closest('.edit')) this._showForm();
+  }
+
   _renderWorkoutMarker(workout) {
     L.marker(workout.coords)
       .addTo(this.#map)
@@ -229,6 +235,7 @@ class App {
     let html = `
     <li class="workout workout--${workout.type}" data-id="${workout.id}">
           <h2 class="workout__title">${workout.description}</h2>
+          <div class="edit" role"button">Edit</div>
           <div class="workout__details">
             <span class="workout__icon">${
               workout.type === 'running' ? '🏃‍♂️' : '🚴‍♀️'
@@ -273,24 +280,18 @@ class App {
     form.insertAdjacentHTML('afterend', html);
   }
 
-  _editWorkout(workout) {}
-
   _moveToPopup(e) {
     const workoutEl = e.target.closest('.workout');
-
     if (!workoutEl) return;
-
     const workout = this.#workouts.find(
       work => work.id === workoutEl.dataset.id
     );
-
     this.#map.setView(workout.coords, this.#mapZoomLevel, {
       animate: true,
       pan: {
         duration: 1,
       },
     });
-
     // using the public interface
     // workout.click();
   }
