@@ -1,6 +1,6 @@
 'use strict';
 
-const form = document.querySelector('.form');
+// const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
 const inputDistance = document.querySelector('.form__input--distance');
@@ -79,6 +79,7 @@ class App {
   #mapEvent;
   #workouts = [];
   _editBtn = document.querySelector('.workouts');
+  _form = document.querySelector('.form');
 
   constructor() {
     // Get user's position
@@ -88,7 +89,7 @@ class App {
     this._getLocalStorage();
 
     // Attach event handlers
-    form.addEventListener('submit', this._newWorkout.bind(this));
+    this._form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
     this._editBtn.addEventListener('click', this._editHandle.bind(this));
@@ -129,7 +130,7 @@ class App {
 
   _showForm(mapE) {
     this.#mapEvent = mapE;
-    form.classList.remove('hidden');
+    this._form.classList.remove('hidden');
     inputDistance.focus();
   }
 
@@ -140,8 +141,8 @@ class App {
       inputCadence.value =
       inputElevation.value =
         '';
-    form.style.display = 'none';
-    form.classList.add('hidden');
+    this._form.style.display = 'none';
+    this._form.classList.add('hidden');
     setTimeout(() => (form.style.display = 'grid'), 1000);
   }
   _toggleElevationField() {
@@ -209,8 +210,77 @@ class App {
     this._setLocalStorage();
   }
 
+  _editWorkout(workout) {
+    this._showEditForm(workout);
+    const validInputs = (...inputs) =>
+      inputs.every(inp => Number.isFinite(inp));
+    const allPositive = (...inputs) => inputs.every(inp => inp > 0);
+
+    // e.preventDefault();
+
+    // Get data from form
+    const type = inputType.value;
+    const distance = +inputDistance.value;
+    const duration = +inputDuration.value;
+    const { lat, lng } = this.#mapEvent.latlng;
+
+    // If workout running, create running object
+    if (type === 'running') {
+      const cadence = +inputCadence.value;
+      // Check if data is valid
+      if (
+        // !Number.isFinite(distance) ||
+        // !Number.isFinite(duration) ||
+        // !Number.isFinite(cadence)
+        !validInputs(distance, duration, cadence) ||
+        !allPositive(distance, duration, cadence)
+      )
+        return alert('Input have to be positive numbers!');
+    }
+
+    // If workout cycling, create cycling object
+    if (type === 'cycling') {
+      // Check if data is valid
+      const elevation = +inputElevation.value;
+
+      if (
+        !validInputs(distance, duration, elevation) ||
+        !allPositive(distance, duration)
+      )
+        return alert('Input have to be positive numbers!');
+    }
+
+    // Add new object to workout array
+    // this.#workouts.push(workout);
+
+    // Render workout on map as marker
+    this._renderWorkoutMarker(workout);
+
+    // Render workout on list
+    this._renderWorkout(workout);
+
+    // Hide from + clear input fields
+    this._hideForm();
+
+    // Set local storage to all workouts
+    this._setLocalStorage();
+  }
+
   _editHandle(e) {
-    if (this._editBtn.closest('.edit')) console.log('WWE');
+    if (e.target.closest('.edit')) this._editWorkout();
+  }
+
+  _showEditForm(mapE, workout) {
+    this.#mapEvent = mapE;
+    this._form.classList.remove('hidden');
+    this._showForm();
+    inputType.value = workout.type;
+    inputDistance.value = workout.distance;
+    inputDuration.value = workout.duration;
+
+    if (inputType.value === 'running') inputCadence.value = workout.cadence;
+    if (inputType.value === 'cycling')
+      inputElevation.value = workout.elevationGain;
   }
 
   _renderWorkoutMarker(workout) {
@@ -277,7 +347,7 @@ class App {
           </div>
         </li> `;
 
-    form.insertAdjacentHTML('afterend', html);
+    this._form.insertAdjacentHTML('afterend', html);
   }
 
   _moveToPopup(e) {

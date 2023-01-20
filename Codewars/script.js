@@ -237,3 +237,13 @@ function opposite(number) {
 console.log(opposite(1));
 console.log(opposite(14));
 console.log(opposite(-34));
+
+///////////////////////////////////////////
+// Reverse words
+function reverseWords2(str) {
+	return str.split('').reverse().join('').split(' ').reverse().join(' ');
+}
+console.log(reverseWords2('The quick brown fox jumps over the lazy dog.'));
+reverseWords2('apple');
+reverseWords2('a b c d');
+reverseWords2('double spaced words');
