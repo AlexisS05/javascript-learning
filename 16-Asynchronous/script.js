@@ -198,9 +198,9 @@ const getCountryData = function (country) {
     });
 };
 
-btn.addEventListener('click', function () {
-  getCountryData('usa');
-});
+// btn.addEventListener('click', function () {
+//   getCountryData('usa');
+// });
 
 // getCountryData('australia');
 
@@ -223,9 +223,29 @@ const whereAmI = function (lat, lng) {
       console.log(response);
       if (!response.ok)
         throw new Error(`Something went wrong ${response.status}`);
+
       return response.json();
     })
-    .then(data => console.log(data));
+    .then(data => {
+      console.log(data);
+      console.log(`You are in ${data.city}, ${data.countryName}`);
+
+      return fetch(`https://restcountries.com/v2/name/${data.countryName}`);
+    })
+    .then(res => {
+      if (!res.ok) throw new Error(`Country not found ${res.status}`);
+      return res.json();
+    })
+    .then(data => renderCountry(data[0]))
+    .catch(err => {
+      console.error(`${err} 🚨`);
+      renderError(`Something went wrong ${err.message}. Try again!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = 1;
+    });
 };
 
-whereAmI();
+whereAmI(52.508, 13.381);
+whereAmI(19.037, 72.873);
+whereAmI(-33.933, 18.474);
