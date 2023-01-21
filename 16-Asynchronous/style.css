@@ -63,6 +63,24 @@ body {
   margin-left: 0;
 }
 
+.neighbour2::before {
+  content: 'Neighbour country';
+  width: 100%;
+  position: absolute;
+  top: -4rem;
+
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.neighbour2 {
+  transform: scale(0.6) translateY(1rem);
+  margin-left: 0;
+}
+
 .country__img {
   width: 30rem;
   height: 17rem;
