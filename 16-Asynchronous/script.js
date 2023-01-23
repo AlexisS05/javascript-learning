@@ -24,12 +24,12 @@ const renderCountry = function (data, className = '') {
           </div>
         </article>`;
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.getElementsByClassName.opacity = 1;
+  countriesContainer.getElementsByClassName.opacity = 1;
 };
 
 const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforeend', msg);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 const renderWaifu = function (data) {
@@ -219,12 +219,11 @@ const whereAmI = function (lat, lng) {
   fetch(
     `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
   )
-    .then(response => {
-      console.log(response);
-      if (!response.ok)
-        throw new Error(`Something went wrong ${response.status}`);
+    .then(res => {
+      console.log(res);
+      if (!res.ok) throw new Error(`Problem with api-geocode ${res.status}`);
 
-      return response.json();
+      return res.json();
     })
     .then(data => {
       console.log(data);
@@ -240,9 +239,6 @@ const whereAmI = function (lat, lng) {
     .catch(err => {
       console.error(`${err} 🚨`);
       renderError(`Something went wrong ${err.message}. Try again!`);
-    })
-    .finally(() => {
-      countriesContainer.style.opacity = 1;
     });
 };
 

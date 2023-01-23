@@ -247,3 +247,16 @@ console.log(reverseWords2('The quick brown fox jumps over the lazy dog.'));
 reverseWords2('apple');
 reverseWords2('a b c d');
 reverseWords2('double spaced words');
+
+/////////////////////////////////////////////
+// Powers of 2
+function powersOfTwo(n) {
+	let arr = [];
+	for (let i = 0; i <= n; i++) {
+		arr.push(2 ** i);
+	}
+	return arr;
+}
+console.log(powersOfTwo(0));
+console.log(powersOfTwo(1));
+console.log(powersOfTwo(4));
