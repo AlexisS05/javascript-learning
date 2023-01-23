@@ -260,3 +260,17 @@ function powersOfTwo(n) {
 console.log(powersOfTwo(0));
 console.log(powersOfTwo(1));
 console.log(powersOfTwo(4));
+
+///////////////////////////////////////////
+// Twice as old
+function twiceAsOld(dadYearsOld, sonYearsOld) {
+	let twiceAge = sonYearsOld * 2;
+	let dadAgeSum = 0;
+	if (dadYearsOld >= twiceAge || twiceAge > dadYearsOld) {
+		dadAgeSum += dadYearsOld - twiceAge;
+	}
+	return Math.abs(dadAgeSum);
+}
+console.log(twiceAsOld(36, 7));
+console.log(twiceAsOld(55, 30));
+console.log(twiceAsOld(42, 21));
