@@ -37,6 +37,11 @@ const renderWaifu = function (data) {
   body.insertAdjacentHTML('beforeend', html);
 };
 
+const renderImg = function (img) {
+  const html = `<img class="img_size img_ch"src="${img}"/>`;
+  body.insertAdjacentHTML('afterend', html);
+};
+
 /*
 const getCountryAndNeighbour = function (country) {
   // AJAX call country 1
@@ -172,31 +177,31 @@ const getJSON = function (url, errorMsg = 'Something went wrong') {
 
 // getCountryData('asdasdsads');
 
-const getCountryData = function (country) {
-  // Country 1
-  getJSON(`https://restcountries.com/v2/name/${country}`, 'Country not found')
-    .then(data => {
-      renderCountry(data[0]);
-      const neighbour = data[0].borders?.[0];
+// const getCountryData = function (country) {
+//   // Country 1
+//   getJSON(`https://restcountries.com/v2/name/${country}`, 'Country not found')
+//     .then(data => {
+//       renderCountry(data[0]);
+//       const neighbour = data[0].borders?.[1];
 
-      if (!neighbour) throw new Error('No neighbour found!');
+//       if (!neighbour) throw new Error('No neighbour found!');
 
-      // Country 2
+//       // Country 2
 
-      return getJSON(
-        `https://restcountries.com/v2/alpha/${neighbour}`,
-        'Country not found'
-      );
-    })
-    .then(data => renderCountry(data, 'neighbour'))
-    .catch(err => {
-      console.error(`${err} 🚨🚨🚨`);
-      renderError(`Something went wrong 🚨🚨🚨 ${err.message}. Try again!`);
-    })
-    .finally(() => {
-      countriesContainer.style.opacity = 1;
-    });
-};
+//       return getJSON(
+//         `https://restcountries.com/v2/alpha/${neighbour}`,
+//         'Country not found'
+//       );
+//     })
+//     .then(data => renderCountry(data, 'neighbour'))
+//     .catch(err => {
+//       console.error(`${err} 🚨🚨🚨`);
+//       renderError(`Something went wrong 🚨🚨🚨 ${err.message}. Try again!`);
+//     })
+//     .finally(() => {
+//       countriesContainer.style.opacity = 1;
+//     });
+// };
 
 // btn.addEventListener('click', function () {
 //   getCountryData('usa');
@@ -204,17 +209,9 @@ const getCountryData = function (country) {
 
 // getCountryData('australia');
 
-const getWaifuData = function (type, category) {
-  fetch(`https://api.waifu.pics/${type}/${category}`)
-    .then(response => response.json())
-    .then(data => renderWaifu(data));
-};
-
-getWaifuData('sfw', 'waifu');
-
 //////////////////////////////////////////////
 // Coding Challenge #1
-
+/*
 const whereAmI = function (lat, lng) {
   fetch(
     `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
@@ -245,3 +242,156 @@ const whereAmI = function (lat, lng) {
 whereAmI(52.508, 13.381);
 whereAmI(19.037, 72.873);
 whereAmI(-33.933, 18.474);
+*/
+
+//////////////////////////////////////////////
+// The Event Loop in practice
+/*
+console.log('Test start');
+// Callback runs last
+setTimeout(() => console.log('0 sec timer'), 0);
+Promise.resolve('Resolved promise 1').then(res => console.log(res));
+
+Promise.resolve('Resolved promise 2').then(res => {
+  for (let i = 0; i < 1000000000; i++) {}
+  console.log(res);
+});
+console.log('Test end');
+*/
+
+////////////////////////////////////////////////
+// Promisifying the Geolocation API
+/*
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('Lottery draw is happening 🔮');
+  setTimeout(function () {
+    if (Math.random() >= 0.5) {
+      resolve('You WIN 💰');
+    } else {
+      reject(new Error('You lost your money 💩'));
+    }
+  }, 2000);
+});
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+// Promisifying setTimeout
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+wait(1)
+  .then(() => {
+    console.log('1 second passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('2 second passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('3 second passed');
+    return wait(1);
+  })
+  .then(() => console.log('4 second passed'));
+
+Promise.resolve('abc').then(x => console.log(x));
+Promise.reject(new Error('Problem!')).catch(x => console.error(x));
+*/
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // );
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+// getPosition().then(pos => console.log(pos));
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+
+      return fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+      );
+    })
+
+    .then(res => {
+      console.log(res);
+      if (!res.ok) throw new Error(`Problem with api-geocode ${res.status}`);
+
+      return res.json();
+    })
+    .then(data => {
+      console.log(data);
+      const usa = data.countryName.split(' ').splice(0, 4).join(' ');
+      console.log(`You are in ${data.city}, ${usa}`);
+
+      return fetch(
+        `https://restcountries.com/v2/name/${
+          usa ? 'usa' || 'United States of America' : `${data.countryName}`
+        }`
+      );
+    })
+    .then(res => {
+      if (!res.ok) throw new Error(`Country not found ${res.status}`);
+      return res.json();
+    })
+    .then(data => renderCountry(data[0]))
+    .catch(err => {
+      console.error(`${err} 🚨`);
+      renderError(`Something went wrong ${err.message}. Try again!`);
+    });
+};
+
+btn.addEventListener('click', whereAmI);
+
+////////////////////////////////////////////////////
+// Getting Waifu pictures from API
+// const getWaifuData = function (type, category) {
+//   fetch(`https://api.waifu.pics/${type}/${category}`)
+//     .then(response => response.json())
+//     .then(data => renderWaifu(data));
+// };
+
+// getWaifuData('sfw', 'waifu');
+
+/////////////////////////////////////////////////////
+// Coding Challenge #2
+
+function hideImage() {
+  document.querySelector('.img_ch').style.display = 'none';
+}
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    let img = document.createElement('img');
+    img = img.src = `${imgPath}`;
+    if (imgPath.includes('jpg')) {
+      setTimeout(function () {
+        resolve(renderImg(img));
+        setTimeout(function () {
+          hideImage();
+        }, 2000);
+      }, 2000);
+    } else {
+      reject(new Error('No image :/ or image name is incorrect'));
+    }
+  });
+};
+
+createImage('img/img-1.jpg')
+  .then(() => {
+    return createImage('img/img-2.jpg');
+  })
+  .then(() => {
+    return createImage('img/img-3.jpg');
+  })
+  .catch(err => console.error(err));
