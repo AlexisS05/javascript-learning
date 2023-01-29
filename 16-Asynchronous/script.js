@@ -1,8 +1,13 @@
 'use strict';
 
-const btn = document.querySelector('.btn-country');
+const btn = document.querySelector('.waifu');
+const nekoBtn = document.querySelector('.neko');
 const countriesContainer = document.querySelector('.countries');
 const body = document.querySelector('body');
+
+function hideImage() {
+  document.querySelector('img').style.display = 'none';
+}
 
 ///////////////////////////////////////
 // First AJAX Call: XMLHttpRequest
@@ -35,6 +40,23 @@ const renderError = function (msg) {
 const renderWaifu = function (data) {
   const html = `<img class="img_size"src="${data.url}"/>`;
   body.insertAdjacentHTML('beforeend', html);
+};
+
+const renderWaifuImg = async function (data) {
+  return new Promise(function (resolve, reject) {
+    console.log(data);
+    let container = document.querySelector('.waifu-container');
+
+    if (data.url) {
+      const img = document.createElement('img');
+      img.src = `${data.url}`;
+      resolve(container.append(img));
+    }
+
+    if (container.childElementCount > 1) {
+      hideImage();
+    }
+  });
 };
 
 const renderImg = function (img) {
@@ -301,18 +323,19 @@ Promise.resolve('abc').then(x => console.log(x));
 Promise.reject(new Error('Problem!')).catch(x => console.error(x));
 */
 
-const getPosition = function () {
-  return new Promise(function (resolve, reject) {
-    // navigator.geolocation.getCurrentPosition(
-    //   position => resolve(position),
-    //   err => reject(err)
-    // );
-    navigator.geolocation.getCurrentPosition(resolve, reject);
-  });
-};
+// const getPosition = function () {
+//   return new Promise(function (resolve, reject) {
+//     // navigator.geolocation.getCurrentPosition(
+//     //   position => resolve(position),
+//     //   err => reject(err)
+//     // );
+//     navigator.geolocation.getCurrentPosition(resolve, reject);
+//   });
+// };
 
 // getPosition().then(pos => console.log(pos));
 
+/*
 const whereAmI = function () {
   getPosition()
     .then(pos => {
@@ -352,6 +375,7 @@ const whereAmI = function () {
 };
 
 btn.addEventListener('click', whereAmI);
+*/
 
 ////////////////////////////////////////////////////
 // Getting Waifu pictures from API
@@ -365,7 +389,8 @@ btn.addEventListener('click', whereAmI);
 
 /////////////////////////////////////////////////////
 // Coding Challenge #2
-
+// I did it differently
+/*
 function hideImage() {
   document.querySelector('.img_ch').style.display = 'none';
 }
@@ -395,3 +420,132 @@ createImage('img/img-1.jpg')
     return createImage('img/img-3.jpg');
   })
   .catch(err => console.error(err));
+*/
+
+///////////////////////////////////////////////
+// Correct solution or better solution
+/*
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
+const imgContainer = document.querySelector('.images');
+
+const createImage2 = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imgPath;
+
+    img.addEventListener('load', function () {
+      imgContainer.append(img);
+      resolve(img);
+    });
+
+    img.addEventListener('error', function () {
+      reject(new Error('Image not found'));
+    });
+  });
+};
+
+let currentImg;
+
+createImage2('img/img-1.jpg')
+  .then(img => {
+    currentImg = img;
+    console.log('Image 1 loaded');
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+    return createImage2('img/img-2.jpg');
+  })
+  .then(img => {
+    currentImg = img;
+    console.log('Image 2 loaded');
+    return wait(2);
+  })
+  .then(() => {
+    currentImg.style.display = 'none';
+    return createImage2('img/img-3.jpg');
+  })
+  .then(img => {
+    currentImg = img;
+    console.log('Image 3 loaded');
+    return wait(2);
+  })
+  .then(() => (currentImg.style.display = 'none'))
+  .catch(err => console.error(err));
+*/
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = async function () {
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    // Reverse geocaoding
+    const resGeo = await fetch(
+      `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`
+    );
+    if (!resGeo.ok) throw new Error('Problem getting location data');
+
+    const dataGeo = await resGeo.json();
+    const usa = dataGeo.countryName.split(' ').splice(0, 4).join(' ');
+
+    // Country data
+    // fetch(`https://restcountries.com/v2/name/${country}`).then(res => console.log(res));
+    const res = await fetch(
+      `https://restcountries.com/v2/name/${
+        `${dataGeo.countryName}` ? 'usa' : `${dataGeo.countryName}`
+      }`
+    );
+    if (!res.ok) throw new Error('Problem getting country');
+    const data = await res.json();
+    renderCountry(data[0]);
+
+    return `You are in ${dataGeo.city}, ${usa}`;
+  } catch (err) {
+    console.error(err);
+    renderError(`Something went wrong 🚨 ${err.message}`);
+
+    // Reject promise returned from async function
+    throw err;
+  }
+};
+
+console.log('1: Will get location');
+// const city = whereAmI();
+// console.log(city);
+whereAmI()
+  .then(city => console.log(`2: ${city}`))
+  .catch(err => console.error(`2: ${err.message}🚨`))
+  .finally(() => console.log('3: Finished getting location'));
+
+// try {
+//   let y = 1;
+//   const x = 2;
+//   x = 3;
+// } catch (err) {
+//   alert(err.message);
+// }
+
+const getWaifuData = async function (type, category) {
+  const res = await fetch(`https://api.waifu.pics/${type}/${category}`);
+  const data = await res.json();
+  renderWaifuImg(data);
+};
+
+btn.addEventListener('click', function () {
+  getWaifuData('sfw', 'waifu');
+});
+nekoBtn.addEventListener('click', function () {
+  getWaifuData('sfw', 'neko');
+});
