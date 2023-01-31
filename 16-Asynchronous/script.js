@@ -4,9 +4,10 @@ const btn = document.querySelector('.waifu');
 const nekoBtn = document.querySelector('.neko');
 const countriesContainer = document.querySelector('.countries');
 const body = document.querySelector('body');
+const waifuImg = document.getElementById('waifu-img');
 
 function hideImage() {
-  document.querySelector('img').style.display = 'none';
+  return (img = document.querySelector('img').style.display = 'none');
 }
 
 ///////////////////////////////////////
@@ -38,26 +39,27 @@ const renderError = function (msg) {
 };
 
 const renderWaifu = function (data) {
-  const html = `<img class="img_size"src="${data.url}"/>`;
-  body.insertAdjacentHTML('beforeend', html);
+  waifuImg.innerHTML = `<img class="img_size"src="${data.url}"/>`;
 };
 
-const renderWaifuImg = async function (data) {
-  return new Promise(function (resolve, reject) {
-    console.log(data);
-    let container = document.querySelector('.waifu-container');
+// const renderWaifuImg = async function (data) {
+//   return new Promise(function (resolve, reject) {
+//     console.log(data);
 
-    if (data.url) {
-      const img = document.createElement('img');
-      img.src = `${data.url}`;
-      resolve(container.append(img));
-    }
+//     let arr = [];
+//     let container = document.querySelector('.waifu-container');
 
-    if (container.childElementCount > 1) {
-      hideImage();
-    }
-  });
-};
+//     if (data.url && container.childElementCount === 0) {
+//       const img = document.createElement('img');
+//       img.src = `${data.url}`;
+//       resolve(container.append(img));
+//     }
+
+//     if (container.childElementCount > 1) {
+//       container.removeChild(img[0]);
+//     }
+//   });
+// };
 
 const renderImg = function (img) {
   const html = `<img class="img_size img_ch"src="${img}"/>`;
@@ -540,7 +542,7 @@ whereAmI()
 const getWaifuData = async function (type, category) {
   const res = await fetch(`https://api.waifu.pics/${type}/${category}`);
   const data = await res.json();
-  renderWaifuImg(data);
+  renderWaifu(data);
 };
 
 btn.addEventListener('click', function () {
