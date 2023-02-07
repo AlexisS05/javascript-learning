@@ -49,32 +49,57 @@ const newBudget2 = addExpense(
 );
 const newBudget3 = addExpense(newBudget2, spendingLimits, 200, 'Stuff', 'Jay');
 
-const checkExpenses = function (state, limits) {
-  return state.map(entry => {
-    return entry.value < -getLimit(limits, entry.user)
-      ? {
-          ...entry,
-          flag: 'limits',
-        }
-      : entry;
-  });
-  // for (const entry of budget)
-  //   if (entry.value < -getLimit(limits, entry.user)) entry.flag = 'limit';
-};
+// const checkExpenses2 = function (state, limits) {
+//   return state.map(entry => {
+//     return entry.value < -getLimit(limits, entry.user)
+//       ? {
+//           ...entry,
+//           flag: 'limits',
+//         }
+//       : entry;
+//   });
+//   // for (const entry of budget)
+//   //   if (entry.value < -getLimit(limits, entry.user)) entry.flag = 'limit';
+// };
+
+const checkExpenses = (state, limits) =>
+  state.map(entry =>
+    entry.value < -getLimit(limits, entry.user)
+      ? { ...entry, flag: 'limits' }
+      : entry
+  );
+
 const finalBudget = checkExpenses(newBudget3, spendingLimits);
 console.log(finalBudget);
 
-const logBigExpenses = function (bigLimit) {
-  let output = '';
-  for (let entry of budget)
-    output +=
-      entry.value <= -bigLimit ? `${entry.description.slice(-2)} / ` : ''; //Emojis are 2 chars
+const logBigExpenses = function (state, bigLimit) {
+  const bigExpenses = state
+    .filter(entry => entry.value <= -bigLimit)
+    // .map(entry => entry.description.slice(-2))
+    // .join(' / ');
+    .reduce((str, cur) => `${str} / ${cur.description.slice(-2)}`, '');
 
-  output = output.slice(0, -2); // Remove last '/ '
-  console.log(output);
+  console.log(bigExpenses);
+
+  // let output = '';
+  // for (let entry of budget)
+  //   output +=
+  //     entry.value <= -bigLimit ? `${entry.description.slice(-2)} / ` : ''; //Emojis are 2 chars
+  // output = output.slice(0, -2); // Remove last '/ '
+  // console.log(output);
 };
 
-logBigExpenses(500);
+logBigExpenses(finalBudget, 500);
+
+// Adding the total income.
+const addIncome = state => {
+  const income = state
+    .filter(entry => entry.value > 0)
+    .reduce((acc, cur) => acc + cur.value, 0);
+  console.log(`${income} is the total income`);
+};
+
+addIncome(finalBudget);
 
 // Trying Pure functions
 // const wweSuperstars = [
