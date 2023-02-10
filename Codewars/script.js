@@ -499,6 +499,19 @@ list(
 	'Pride and Prejudice'
 );
 
+const favoriteAnime = function (title, ...items) {
+	const item = items.map((anime, i) => {
+		return `${i + 1}) ${anime}`;
+	});
+	console.log(`${title}\n${item.join('\n')}`);
+};
+favoriteAnime(
+	'My favorite anime:',
+	'Attack On Titan',
+	'My Hero Academia',
+	'My Dress Up Darling'
+);
+
 // const scrub = (...property) => {
 // 	const output = property.map((x, i) => `${i + 1} ${x}`);
 // 	console.log(output.join('\n'));
