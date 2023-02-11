@@ -582,3 +582,15 @@ books.forEach((book) => {
 });
 
 /* ⚠️ COMMENT OUT YOUR SOLUTIONS AFTER YOU FINISH SO THAT IT DOESN'T COLLIDE WITH NEXT EXERCISES 🠕 */
+
+const numbers = [33, 2, 100, 8];
+numbers.sort();
+console.log(numbers[1]);
+console.log(numbers);
+
+const isTrue = true == [];
+const isFalse = true == ![];
+console.log(isTrue);
+console.log(isFalse);
+
+console.log(typeof typeof 1);
