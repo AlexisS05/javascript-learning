@@ -70,6 +70,13 @@ const controlPagination = function (goToPage) {
   console.log(goToPage);
 };
 
+const controlPaginationList = function (goToPage) {
+  // 1) Render NEW results
+  console.log(resultsView.render(model.getSearchResultsPage(goToPage)));
+
+  console.log(goToPage);
+};
+
 const controlServings = function (newServings) {
   // Update the recipe servings (in state)
   model.updateServings(newServings);
@@ -133,6 +140,7 @@ const init = function () {
   recipeView.addHandlerAddBookmark(controlAddBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
+  paginationView.addHandlerClickList(controlPaginationList);
   addRecipeView.addHandlerUpload(controlAddRecipe);
 };
 init();

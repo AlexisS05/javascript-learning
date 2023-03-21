@@ -3,6 +3,8 @@ import View from './View.js';
 
 class PaginationView extends View {
   _parentElement = document.querySelector('.pagination');
+  _list = document.querySelector('.listPage');
+  _listParent = document.querySelector('.list');
 
   addHandlerClick(handler) {
     this._parentElement.addEventListener('click', function (e) {
@@ -11,6 +13,17 @@ class PaginationView extends View {
 
       const goToPage = +btn.dataset.goto;
 
+      handler(goToPage);
+    });
+  }
+
+  addHandlerClickList(handler) {
+    this._listParent.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn-list');
+      if (!btn) return;
+
+      const goToPage = +btn.dataset.goto;
+      console.log(goToPage);
       handler(goToPage);
     });
   }
@@ -44,6 +57,12 @@ class PaginationView extends View {
     );
     console.log(numPages);
 
+    this._list.innerHTML = '';
+    if (numPages >= 1) {
+      for (let page = curPage; page <= numPages; page++) {
+        this._list.innerHTML += `<button data-goto="${page}" class="btn-list">${page}</button>`;
+      }
+    }
     // Page 1, and there are other pages
     if (curPage === 1 && numPages > 1) {
       const [, nextButton] = this._generateMarkupButton(curPage);
