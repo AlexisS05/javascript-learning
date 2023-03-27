@@ -594,3 +594,67 @@ console.log(isTrue);
 console.log(isFalse);
 
 console.log(typeof typeof 1);
+
+// Hoisting
+nonHoisted();
+// hoistedFunction();
+
+const hoistedFunction = function () {
+	console.log('Test');
+};
+
+function nonHoisted() {
+	console.log('test2');
+}
+
+function openOrSenior(data) {
+	let output = [];
+	data.map((el) =>
+		el[0] >= 55 && el[1] > 7 ? output.push('Senior') : output.push('Open')
+	);
+	console.log(output);
+}
+
+openOrSenior([
+	[45, 12],
+	[55, 21],
+	[19, -2],
+	[104, 20],
+]);
+openOrSenior([
+	[3, 12],
+	[55, 1],
+	[91, -2],
+	[53, 23],
+]);
+openOrSenior([
+	[59, 12],
+	[55, -1],
+	[12, -2],
+	[12, 12],
+]);
+
+function openOrSenior2(data) {
+	data.map(([age, handicap]) =>
+		age[0] >= 55 && handicap[1] > 7
+			? console.log('Senior')
+			: console.log('Open')
+	);
+}
+
+openOrSenior2([
+	[45, 12],
+	[55, 21],
+	[19, -2],
+	[104, 20],
+]);
+
+function highAndLow(numbers) {
+	const split = numbers.split(' ');
+	const num = split.map((num) => +num);
+	const max = Math.max(...num);
+	const min = Math.min(...num);
+	const both = `${max} ${min}`;
+	console.log(both);
+}
+highAndLow('8 3 -5 42 -1 0 0 -9 4 7 4 -4');
